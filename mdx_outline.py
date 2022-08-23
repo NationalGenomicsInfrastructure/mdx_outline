@@ -113,15 +113,15 @@ Copyright
 
 All rights reserved.
 
-This software is released under the modified BSD License. 
+This software is released under the modified BSD License.
 See LICENSE.md for details.
 
 
 Further credits
 ---------------
 
-This is a rewrite of the 
-[mdx_addsection extension](http://git.constantvzw.org/?p=aa.core.git;a=blob;f=aacore/mdx_addsections.py;h=969e520a42b0018a2c4b74889fecc83a7dd7704a;hb=HEAD) 
+This is a rewrite of the
+[mdx_addsection extension](http://git.constantvzw.org/?p=aa.core.git;a=blob;f=aacore/mdx_addsections.py;h=969e520a42b0018a2c4b74889fecc83a7dd7704a;hb=HEAD)
 we've written for [active archives](http://activearchives.org). The first
 version had a bug with non hierachical heading structures. This is no longer a
 problem: a couple of weeks ago, Jesse Dhillon pushed to github a similar plugin
@@ -137,7 +137,7 @@ See also
 
 
 import re
-from markdown.util import etree
+import xml.etree.ElementTree as etree
 from markdown import Extension
 from markdown.treeprocessors import Treeprocessor
 
@@ -216,10 +216,10 @@ class OutlineExtension(Extension):
         }
         super(OutlineExtension, self).__init__(**kwargs)
 
-    def extendMarkdown(self, md, md_globals):
+    def extendMarkdown(self, md):
         ext = OutlineProcessor(md)
         ext.config = self.config
-        md.treeprocessors.add('outline', ext, '_end')
+        md.treeprocessors.register(ext, 'outline', 5)
 
 
 def makeExtension(configs={}):
